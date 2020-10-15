@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    </head>
+    <body>
+   <!-- This is my masterpiece so far and that tells a lot about me! -->
+   <!-- It took 20 hours to do this -->
+        <div id="first" class="container-fluid"><h1>The fields: </h1><div class="form-group"><label>Header:<input type="text" class="header" class="form-control" /></label><br><label id="need">Contents:<input type="text" class="content"class="form-control"/></label>
+            <button id="more" class="btn btn-primary">Need more fields?</button></div>
+        </div>
+        <br><br><br>
+        
+        <button id="column" class="btn btn-primary">New Column</button><br><br>
+        <button id="real" class="btn btn-success">Create Table</button>
+        <button id="delete" class="btn btn-danger">Clear table</button>
+        <h1>The table</h1>
+        <div id="table" class="container table-responsive"></div>
+
+        <script>
+            //------------------------------------------------------------------------------------------------------------------
+            document.querySelector("#more").addEventListener("click", ()=>{
+                let input = document.createElement("input");
+                input.type = "text";
+                document.querySelector("#need").appendChild(input);
+            })
+
+            //------------------------------------------------------------------------------------------------------------------
+
+
+            document.querySelector("#column").addEventListener("click", ()=>{
+                let div = document.createElement("div");
+                let input = document.createElement("input");
+                let label = document.createElement("label");
+                let inputs = document.createElement("input");
+                inputs.className = "header";
+                label.textContent = "Header:";
+                label.appendChild(inputs);
+                let labels = document.createElement("label");
+                labels.textContent = "Contents:";
+                labels.appendChild(input);
+                div.appendChild(label);
+                div.appendChild(document.createElement("br"));
+                div.appendChild(labels);
+                let button = document.createElement("button");
+                button.className = "btn btn-primary"
+                button.textContent = "Need more fields?";
+                document.querySelector("#first").appendChild(div);
+                document.querySelector("#first").appendChild(button);
+                button.addEventListener("click", ()=>{
+                    labels.appendChild(document.createElement("input"));
+                })
+            });
+
+            //-------------------------------------------------------------------------------------------------------------------------
+              document.querySelector("#real").addEventListener("click", ()=>{
+                  document.querySelector("#table").textContent = "";
+                  let div = document.querySelectorAll("div");
+                  let header = [];
+                  let contents = [];
+
+                  for(let i=1;i<div.length-1;i++){
+                          let diver = div[i];
+                        let label = diver.querySelectorAll("label");
+                            for(let lab of label){
+                                if(lab.textContent == "Header:"){
+                                   let input = lab.querySelector("input");
+                                   header.push(input.value);
+                             }else{
+                        if(lab.textContent != "Header:"){
+                        let inputs = lab.querySelectorAll("input");
+                        let arr =[];
+                        inputs.forEach(l=>arr.push(l.value));
+                        contents.push(arr);
+                         arr = [];
+                            }
+                         }
+                   }
+                 }
+                
+                let table = document.createElement("table");
+                let tableHead = document.createElement("thead");
+                let headRow = document.createElement("tr");
+                for(let i=0;i<header.length;i++){
+                    let headCell = document.createElement("th");
+                    headCell.appendChild(document.createTextNode(header[i]));
+                    headRow.appendChild(headCell);
+                }
+                tableHead.appendChild(headRow)
+                table.appendChild(tableHead);
+                let bodyRow = document.createElement("tbody");
+                for(let p =0; p<contents.length;p++){
+                    let cell = document.createElement("td");
+                    let content = contents[p];
+                    for(let z=0;z<content.length;z++){
+                        let row = document.createElement("tr");
+                        row.appendChild(document.createTextNode(content[z]));
+                        cell.appendChild(row);
+                    }
+                    bodyRow.appendChild(cell);
+                }
+                table.appendChild(bodyRow);
+                table.className = "table table-striped table-bordered table-hover table-condensed";
+                document.querySelector("#table").appendChild(table);
+                header = [];
+                contents = [];
+
+              });
+
+              document.querySelector("#delete").addEventListener("click", ()=>{
+                  document.querySelector("#table").textContent = "";
+              })
+                
+        </script>
+
+    </body>
+</html>
